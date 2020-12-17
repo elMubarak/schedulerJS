@@ -39,7 +39,7 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDef));
  *              description: 'Request Failed'
  */
 //root endpoint
-app.get('/',(req,res)=>{res.status(200).json({},)
+app.get('/',(req,res)=>{res.status(200).json({"Message":"Success"},)
 });
 //job docs
 /**
@@ -99,6 +99,24 @@ app.get('/scheduler/active', (req, res) => {
      *      description: "Create a schedule "
      *      tags:
      *          - Add New schedule
+     *      parameters:
+     *          - name: Body 
+     *            in: body
+     *            required: true
+     *            schema:
+     *              type: object
+     *              properties:
+     *                  date:
+     *                      type: string
+     *                      example: yy-mm-dd
+     *                  time:
+     *                      type: string
+     *                      example: hh:mm:ss
+     *                  callbackUrl:
+     *                      type: string
+     *                      example: https://shamskhalil.ngrok.io/scheduler
+     *                  metadata:
+     *                      type: object         
      *      responses:
      *          '200':
      *              description: 'Request is successful'
@@ -109,12 +127,7 @@ app.get('/scheduler/active', (req, res) => {
 //for create
 app.post('/scheduler/add',(req,res)=>{
     res.status(200).json({"status":"Ok"});
-    req.body({
-        "date":"2020-12-16",
-        "time":"16:50:10",
-        "callbackUrl":"https://shamskhalil.ngrok.io/scheduler",
-        "metadata":{"name":"Mubixy"},
-    });
+    console.log(JSON.stringify(req.body));
 });
   //cancel docs
 /**
@@ -146,5 +159,3 @@ app.post('/scheduler/add',(req,res)=>{
 app.listen(3000, () => {
     console.log('Server listening on port 3000');
 });
-
-
