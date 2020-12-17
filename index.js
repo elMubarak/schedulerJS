@@ -100,7 +100,6 @@ app.get('/scheduler/active', (req, res) => {
      *      tags:
      *          - Add New schedule
      *      parameters:
-<<<<<<< HEAD
      *          - name: Body 
      *            in: body
      *            required: true
@@ -118,24 +117,6 @@ app.get('/scheduler/active', (req, res) => {
      *                      example: https://shamskhalil.ngrok.io/scheduler
      *                  metadata:
      *                      type: object         
-=======
-     *          - name: Date
-     *            type: string
-     *            description: 'The Date of your schedule'
-     *            in: path
-     *            required: true
-     *          - name: time
-     *            type: string
-     *            description: 'The Time of your schedule'
-     *            in: path
-     *            required: true
-     *          - name: CallbackUrl
-     *            type: string
-     *            description: 'The  schedule'
-     *            in: path
-     *            required: true
-     
->>>>>>> e275c0295c7ecff4b3f2147fb9778fb247d880de
      *      responses:
      *          '200':
      *              description: 'Request is successful'
