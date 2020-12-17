@@ -39,7 +39,7 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDef));
  *              description: 'Request Failed'
  */
 //root endpoint
-app.get('/',(req,res)=>{res.status(200).json({},)
+app.get('/',(req,res)=>{res.status(200).json({"Message":"Success"},)
 });
 //job docs
 /**
@@ -99,6 +99,23 @@ app.get('/scheduler/active', (req, res) => {
      *      description: "Create a schedule "
      *      tags:
      *          - Add New schedule
+     *      parameters:
+     *          - name: Date
+     *            type: string
+     *            description: 'The Date of your schedule'
+     *            in: path
+     *            required: true
+     *          - name: time
+     *            type: string
+     *            description: 'The Time of your schedule'
+     *            in: path
+     *            required: true
+     *          - name: CallbackUrl
+     *            type: string
+     *            description: 'The  schedule'
+     *            in: path
+     *            required: true
+     
      *      responses:
      *          '200':
      *              description: 'Request is successful'
