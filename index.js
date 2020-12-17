@@ -41,26 +41,66 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDef));
 //root endpoint
 app.get('/',(req,res)=>{res.status(200).json({"Message":"Success"},)
 });
+
+/**
+     * @swagger
+     * /auth/login:
+     *  post:
+     *      description: "Logs in a registered user and returns a token"
+     *      tags:
+     *          - Auth Routines
+     *      parameters:
+     *          - name: reqBody
+     *            description: 'The body of the request in json format consisting of username and password'
+     *            in: body
+     *            schema:
+     *               type: object
+     *               properties:
+     *                   username:
+     *                      type: string
+     *                   password:
+     *                      type: string
+     *               required:
+     *                   - username
+     *                   - password
+     *      responses:
+     *          '200':
+     *              description: 'Request is successful'
+     *          '500':
+     *              description: 'Request Failed'
+     */
+
+     //for create
+     app.post('/auth/login',(req,res)=>{
+        res.status(200).json({"status":"Login successfully"});
+        console.log(JSON.stringify(req.body));
+    });
+      
 //job docs
 /**
      * @swagger
      * /schedulerjobs/{id}:
      *  get:
-     *      description: "Fetches a single schedule"
+     *      description: "Fetches a single schedule job"
      *      tags:
-     *          - get single schedule
+     *          - Single Schedule Job Route
      *      parameters:
      *          - name: id
      *            type: string
-     *            description: 'The id of the schedule'
+     *            description: 'The id of the schedule job to fetch'
      *            in: path
      *            required: true
-     *          
+     *          - name: x-token
+     *            type: string
+     *            description: 'A token given to us by the server after a successful authentication'
+     *            in: header
+     *            required: true
     
      *      responses:
      *          '200':
      *              description: 'Request is successful'
-     *          
+     *          '401':
+     *              description: 'Unathorised, token required'
      *          '500':
      *              description: 'Request Failed'
      */
@@ -76,7 +116,13 @@ app.get('/',(req,res)=>{res.status(200).json({"Message":"Success"},)
      *  get:
      *      description: "Gets all active schedules "
      *      tags:
-     *          - get all schedule
+     *          - Get all schedule Route
+     *      parameters:
+     *          - name: x-token
+     *            type: string
+     *            description: 'A token given to us by the server after a successful authentication'
+     *            in: header
+     *            required: true
      *      responses:
      *          '200':
      *              description: 'Request is successful'
@@ -98,8 +144,13 @@ app.get('/scheduler/active', (req, res) => {
      *  post:
      *      description: "Create a schedule "
      *      tags:
-     *          - Add New schedule
+     *          - Add New schedule Route
      *      parameters:
+     *          - name: x-token
+     *            type: string
+     *            description: 'A token given to us by the server after a successful authentication'
+     *            in: header
+     *            required: true
      *          - name: Body 
      *            in: body
      *            required: true
@@ -136,13 +187,14 @@ app.post('/scheduler/add',(req,res)=>{
      *  put:
      *      description: "Cancel a schedule by it's ID "
      *      tags:
-     *          - Cancel A Schedule
+     *          - Cancel A Schedule Route
      *      parameters:
      *          - name: id
      *            type: string
      *            description: 'The id of the schedule'
      *            in: path
      *            required: true
+     *          
      *      responses:
      *          '200':
      *              description: 'Request is successful'
@@ -154,7 +206,8 @@ app.post('/scheduler/add',(req,res)=>{
     app.put('/scheduler/cancel/:id',(req,res)=>{
         res.status(200).json({"status":"cancel schedule Sucess",payload:{}},);
     });
-  
+
+    
 
 app.listen(3000, () => {
     console.log('Server listening on port 3000');
