@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const swaggerJSDOC = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
-const server = express();
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const swaggerOptions = {
     definition: {
@@ -23,8 +23,25 @@ const swaggerOptions = {
 }
 const swaggerDef = swaggerJSDOC(swaggerOptions);
 
-server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDef));
-
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDef));
+//docs for root
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      description: "This is the root endpoint of our api"
+ *      tags:
+ *          - Root Endpoint
+ *      responses:
+ *          '200':
+ *              description: 'Request is successful'
+ *          '500':
+ *              description: 'Request Failed'
+ */
+//root endpoint
+app.get('/',(req,res)=>{res.status(200).json({},)
+});
+//job docs
 /**
      * @swagger
      * /schedulerjobs/{id}:
@@ -47,11 +64,12 @@ server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDef));
      *          '500':
      *              description: 'Request Failed'
      */
-server.get('/schedulerjobs/:id',(req,res)=>{
+    //for jobbs
+    app.get('/schedulerjobs/:id',(req,res)=>{
     res.status(200).json({"status":"single schedule"});
 });
 
-
+//active docts
 /**
      * @swagger
      * /scheduler/active/:
@@ -67,14 +85,65 @@ server.get('/schedulerjobs/:id',(req,res)=>{
      */
 
 
-
-server.get('/scheduler/active', (req, res) => {
+//for active
+app.get('/scheduler/active', (req, res) => {
     res.status(200).json({OK: true})
     console.log(JSON.stringify('All active schedules fetched'));
 });
 
+//create docs
+/**
+     * @swagger
+     * /scheduler/add/:
+     *  post:
+     *      description: "Create a schedule "
+     *      tags:
+     *          - Add New schedule
+     *      responses:
+     *          '200':
+     *              description: 'Request is successful'
+     *          '500':
+     *              description: 'Request Failed'
+     */
 
-server.listen(3000, () => {
+//for create
+app.post('/scheduler/add',(req,res)=>{
+    res.status(200).json({"status":"Ok"});
+    req.body({
+        "date":"2020-12-16",
+        "time":"16:50:10",
+        "callbackUrl":"https://shamskhalil.ngrok.io/scheduler",
+        "metadata":{"name":"Mubixy"},
+    });
+});
+  //cancel docs
+/**
+     * @swagger
+     * /scheduler/cancel{id}:
+     *  put:
+     *      description: "Cancel a schedule by it's ID "
+     *      tags:
+     *          - Cancel A Schedule
+     *      parameters:
+     *          - name: id
+     *            type: string
+     *            description: 'The id of the schedule'
+     *            in: path
+     *            required: true
+     *      responses:
+     *          '200':
+     *              description: 'Request is successful'
+     *          '500':
+     *              description: 'Request Failed'
+     */
+
+//for cancel
+    app.put('/scheduler/cancel/:id',(req,res)=>{
+        res.status(200).json({"status":"cancel schedule Sucess",payload:{}},);
+    });
+  
+
+app.listen(3000, () => {
     console.log('Server listening on port 3000');
 });
 
