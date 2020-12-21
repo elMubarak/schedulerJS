@@ -194,6 +194,11 @@ app.post('/scheduler/add',(req,res)=>{
      *            description: 'The id of the schedule'
      *            in: path
      *            required: true
+     *          - name: x-token
+     *            type: string
+     *            description: 'A token given to us by the server after a successful authentication'
+     *            in: header
+     *            required: true
      *          
      *      responses:
      *          '200':
